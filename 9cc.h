@@ -59,6 +59,9 @@ struct Node{
 	int offset;
 };
 
-Node *expr();
+Node *code[100];
+// Node *expr();
+Node *program();
 
-void codegen(Node *node);
+// void codegen(Node *node);
+void codegen();

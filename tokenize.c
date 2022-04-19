@@ -26,34 +26,28 @@ void error_at(char *loc, char *fmt, ...){
 	exit(1);
 }
 
-Token *peek(char *s) {
-  	if (token->kind != TK_RESERVED || strlen(s) != token->len ||
-    	memcmp(token->str, s, token->len))
-   		return NULL;
-  	return token;
-}
 
 bool consume(char *op){
-	if (!peek(op))
-		return NULL;
-	Token *t = token;
+	if (token->kind != TK_RESERVED || strlen(op) != token->len ||
+		memcmp(token->str, op, token->len))
+		return false;
 	token = token->next;
-	return t;
+	return true;
 }
 
 bool consume_ident(char *op){
 	if (token->kind != TK_IDENT)
-		return NULL;
-	Token *t = token;
+		return false;
 	token = token->next;
-	return t;
+	return true;
 }
 
 
 
 
 void expect(char *op) {
-	if (!peek(op))
+	if (token->kind != TK_RESERVED || strlen(op) != token->len ||
+		memcmp(token->str, op, token->len))
  	   error_at(token->str, "'%s'ではありません", op);
  	token = token->next;
 }
@@ -101,7 +95,7 @@ Token *tokenize() {
 				continue;
 		}
 
-		if (strchr("+-*/()<>", *p)) {
+		if (strchr("+-*/()<>;", *p)) {
 			cur = new_token(TK_RESERVED, cur, p++, 1);
 			continue;
 		}
