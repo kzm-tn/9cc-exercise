@@ -1,0 +1,8 @@
+version: '3'
+services:
+  cc:
+    build: .
+    tty: true
+    volumes:
+      - "${PWD}:/home/projects"
+    working_dir: /home/projects
